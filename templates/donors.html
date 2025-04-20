@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Donor List</h1>
+
+        {% if donors %}
+            <ul class="donor-list">
+                {% for donor in donors %}
+                    <li class="donor-item">
+                        <span class="donor-name">{{ donor.donor_name }}</span>
+                        <span class="donor-phone">{{ donor.phone_no }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-donors">No donors available.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

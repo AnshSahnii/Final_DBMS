@@ -1,0 +1,19 @@
+cd server
+npm install
+
+cd ../blood-donation-frontend
+npm install
+
+
+2 terminals:
+	- To run node server:
+		- cd server
+		- node server.js
+	- To run react frontend:
+		- cd blood-donation-frontend
+		- npm run dev
+
+If issue with port on frontend persists, change this:
+
+vite.config.js:
+	in the server dictionary, change the port number

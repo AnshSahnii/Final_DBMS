@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate Blood</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="hero-container">
+        <h1>🩸 Donate Blood</h1>
+        <p>Your donation can save lives. Thank you for your kindness!</p>
+    </div>
+
+    <div class="login-container donate-form-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="messages">
+                    <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('donate_blood') }}" method="POST" class="donate-form">
+            <h2>Donor Details</h2>
+
+            <label for="name">Your Name:</label>
+            <input type="text" name="name" placeholder="John Doe" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="text" name="phone" placeholder="123-456-7890" required>
+
+            <label for="blood_type">Blood Type:</label>
+            <input type="text" name="blood_type" placeholder="e.g., O+" required>
+
+            <label for="units">Units to Donate:</label>
+            <input type="number" name="units" min="1" placeholder="1" required>
+
+            <label for="blood_bank">Select Blood Bank:</label>
+            <select name="blood_bank" required>
+                <option value="">-- Choose Blood Bank --</option>
+                {% for bank in blood_banks %}
+                    <option value="{{ bank.blood_bank_id }}">{{ bank.blood_bank_name }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" id="submit">Donate Now</button>
+        </form>
+    </div>
+</body>
+</html>

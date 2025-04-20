@@ -1,0 +1,83 @@
+mysql> create dbms;
+
+mysql> use dbms;
+Database changed
+mysql> create table doctor(
+    -> doctor_id int not null,
+    -> doctor_name varchar(20),
+    -> doctor_phone bigint,
+    -> primary key(doctor_id));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> desc doctor;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| doctor_id    | int         | NO   | PRI | NULL    |       |
+| doctor_name  | varchar(20) | YES  |     | NULL    |       |
+| doctor_phone | bigint      | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+3 rows in set (0.03 sec)
+
+mysql> create table donor(
+    -> donor_id int not null,
+    -> donor_name varchar(20),
+    -> phone_no bigint,
+    -> DOB date,
+    -> gender char(1),
+    -> address varchar(30),
+    -> weight int,
+    -> blood_pressure int,
+    -> iron_content int,
+    -> doctor_id int,
+    -> primary key(donor_id),
+    -> foreign key (doctor_id) references doctor(doctor_id));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> create table blood_bank(
+    -> blood_bank_id int not null,
+    -> blood_bank_name varchar(50),
+    -> baddress varchar(30),
+    -> primary key(blood_bank_id));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table blood(
+    -> blood_type varchar(20),
+    -> donor_id int,
+    -> blood_bank_id int,
+    -> primary key(donor_id),
+    -> foreign key (donor_id) references donor(donor_id),
+    -> foreign key (blood_bank_id) references blood_bank(blood_bank_id));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> create table patient(
+    -> patient_id int not null,
+    -> patient_name varchar(20),
+    -> p_phno bigint,
+    -> h_add varchar(50),
+    ->
+    -> p_add varchar(50),
+    -> primary key(patient_id));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> create table blood_delivery(
+    -> blood_bank_id int,
+    -> patient_id int,
+    -> foreign key(blood_bank_id) references blood_bank(blood_bank_id),
+    -> foreign key(patient_id) references patient(patient_id));
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> DELIMITER //
+mysql>
+mysql> CREATE PROCEDURE main(IN no INT, IN value VARCHAR(20))
+    -> BEGIN
+    ->     SELECT blood_type, COUNT(blood_type) AS count1
+    ->     FROM blood b1
+    ->     WHERE blood_type = value
+    ->       AND EXISTS (SELECT blood_bank_id FROM blood_bank b2 WHERE blood_bank_id = no AND b1.blood_bank_id = b2.blood_bank_id)
+    ->     GROUP BY blood_type;
+    -> END //
+Query OK, 0 rows affected (0.04 sec)
+
+mysql>
+mysql> DELIMITER ;

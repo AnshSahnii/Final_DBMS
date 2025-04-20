@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Donation System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background-image: url("{{ url_for('static', filename='images/bigblood.webp.jpg') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            color: #333;
+            text-align: center;
+        }
+    
+        .hero-container {
+            background-color: #d32f2f;
+            color: white;
+            padding: 40px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+    
+        h1, h2 {
+            margin-bottom: 20px;
+        }
+    
+        .menu-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px auto;
+            max-width: 900px;
+        }
+    
+        .menu-box {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px 30px;
+            width: 180px;
+            transition: transform 0.2s, box-shadow 0.3s;
+        }
+    
+        .menu-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+    
+        .menu-box a {
+            text-decoration: none;
+            color: #d32f2f;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    
+        .menu-box i {
+            margin-right: 8px;
+        }
+    
+        .donation-info {
+            background-color: #fff;
+            margin: 40px auto;
+            padding: 30px;
+            max-width: 1000px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+    
+        .donation-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+    
+        .donation-content img {
+            max-width: 300px;
+            border-radius: 10px;
+        }
+    
+        .donation-text {
+            max-width: 600px;
+            text-align: left;
+        }
+    
+        .compatibility-table, table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+    
+        .compatibility-table th, .compatibility-table td, table th, table td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: center;
+        }
+    
+        .compatibility-table th, table th {
+            background-color: #d32f2f;
+            color: white;
+        }
+    
+        table {
+            margin: 0 auto 60px;
+            max-width: 1000px;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="hero-container">
+        <h1>Welcome to the Blood Donation System</h1>
+    </div>
+
+    <div class="menu-container">
+        <div class="menu-box register">
+            <a href="/register"><i class="fas fa-user"></i> Register</a>
+        </div>
+        <div class="menu-box request">
+            <a href="/request_blood"><i class="fas fa-tint"></i> Request Blood</a>
+        </div>
+        <div class="menu-box view">
+            <a href="/view_requests"><i class="fas fa-eye"></i> View My Requests</a>
+        </div>
+        <div class="menu-box donate">
+            <a href="/donate_blood"><i class="fas fa-hand-holding-heart"></i> Donate Blood</a>
+        </div>
+    </div>
+
+    <section class="donation-info">
+        <h2>🩸 Learn About Donation</h2>
+        <div class="donation-content">
+            <img src="{{ url_for('static', filename='images/blood_bg.webp.webp') }}" alt="Blood Donation Image">
+            <div class="donation-text">
+                <p><strong>One Donation Can Save Up to Three Lives</strong></p>
+                <p>After donating blood, the body works to replenish the blood loss. This stimulates the production of new blood cells and in turn, helps in maintaining good health.</p>
+            </div>
+        </div>
+
+        <h2>Compatible Blood Type Donors</h2>
+        <table class="compatibility-table">
+            <tr>
+                <th>Blood Type</th>
+                <th>Donate Blood To</th>
+                <th>Receive Blood From</th>
+            </tr>
+            <tr><td>A+</td><td>A+, AB+</td><td>A+, A-, O+, O-</td></tr>
+            <tr><td>O+</td><td>O+, A+, B+, AB+</td><td>O+, O-</td></tr>
+            <tr><td>B+</td><td>B+, AB+</td><td>B+, B-, O+, O-</td></tr>
+            <tr><td>AB+</td><td>AB+</td><td>Everyone</td></tr>
+            <tr><td>A-</td><td>A+, A-, AB+, AB-</td><td>A-, O-</td></tr>
+            <tr><td>O-</td><td>Everyone</td><td>O-</td></tr>
+            <tr><td>B-</td><td>B+, B-, AB+, AB-</td><td>B-, O-</td></tr>
+            <tr><td>AB-</td><td>AB+, AB-</td><td>AB-, A-, B-, O-</td></tr>
+        </table>
+    </section>
+
+    <h1>🩸 Available Blood Stock</h1>
+    <table>
+        <tr>
+            <th>Blood Type</th>
+            <th>Blood Bank Name</th>
+            <th>Address</th>
+            <th>Units Available</th>
+        </tr>
+        {% for row in blood_data %}
+        <tr>
+            <td>{{ row.blood_type }}</td>
+            <td>{{ row.blood_bank_name }}</td>
+            <td>{{ row.baddress }}</td>
+            <td>{{ row.units_available }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+<footer>
+        <p>&copy; 2023 Blood Donation Organization. All rights reserved.</p>
+        <p>Follow us on:
+            <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+        </p>
+        <p>Contact us: <a href="mailto:
+            </footer>
