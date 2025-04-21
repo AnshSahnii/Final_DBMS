@@ -77,23 +77,18 @@ CREATE TABLE IF NOT EXISTS blood_donations (
      ); 
 
 DELIMITER //
-CREATE TRIGGER check_donor_eligibility 
-     BEFORE INSERT ON donor 
-     FOR EACH ROW 
-     BEGIN 
-         IF NEW.weight < 50 THEN 
-             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Donor weight is below minimum (50kg)'; 
-         END IF; 
-     
-         IF NEW.blood_pressure < 90 THEN 
-             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Blood pressure too low for donation'; 
-         END IF; 
-     
-         IF NEW.iron_content < 12 THEN 
-             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Iron content too low for donation'; 
-         END IF; 
-     END // 
+
+CREATE TRIGGER update_last_donation
+AFTER INSERT ON blood_donations
+FOR EACH ROW
+BEGIN
+    UPDATE donor
+    SET last_donation_date = CURRENT_DATE
+    WHERE donor_id = NEW.user_id;
+END //
+
 DELIMITER ;
+
 INSERT INTO blood_bank (blood_bank_name, baddress)
      VALUES 
      ('AIIMS Blood Bank', 'Ansari Nagar, New Delhi, Delhi'), 
